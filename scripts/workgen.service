@@ -4,7 +4,7 @@ Requires=network.target
 
 [Service]
 Type=simple
-ExecStart=/home/vagrant/capstone2021/scripts/workgen.sh
+ExecStart=/home/cs334/capstone2021/scripts/workgen.sh
 
 [Install]
 WantedBy=multi-user.target
