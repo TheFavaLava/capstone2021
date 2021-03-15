@@ -5,7 +5,7 @@ import requests
 
 class Client:
     def __init__(self):
-        self.url = "http://localhost:8080"
+        self.url = "http://capstone.cs.moravian.edu:8080"
 
     def handle_error(self, j_id, work, data):
         while j_id == "error":
