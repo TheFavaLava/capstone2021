@@ -1,5 +1,5 @@
 import requests
-from c21client.client import Client
+from c21client.client import Client, execute_client_task
 
 BASE_URL = "http://localhost:8080"
 
@@ -116,7 +116,7 @@ def test_client_completes_job_requested(requests_mock, mocker):
     requests_mock.put('{}/put_results'.format(BASE_URL), text='')
 
     try:
-        client.complete_client_request()
+        execute_client_task(client)
     except requests.exceptions.HTTPError as exception:
         assert False, 'Raised an exception: {}'.format(exception)
 
