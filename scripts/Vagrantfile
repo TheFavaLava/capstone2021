@@ -8,31 +8,22 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
 
     apt-get update && apt-get upgrade -y
-
     apt-get install -y python3-venv python3-pip redis-server
 
     git clone https://github.com/TheFavaLava/capstone2021.git
-
     cd capstone2021
-
     git checkout prod_env
 
     python3 -m venv .venv
-
     .venv/bin/pip install -e .
+    .venv/bin/pip install wheel
 
     cp -v scripts/*.service /etc/systemd/system
-
     systemctl start workgen
-
     systemctl enable workgen
-
     systemctl start workserver
-
     systemctl enable workserver
-
     systemctl start dashboard
-
     systemctl enable dashboard
 
     SHELL
