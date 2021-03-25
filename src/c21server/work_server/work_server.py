@@ -1,10 +1,10 @@
 from flask import Flask, json, jsonify, request
 import redis
 
+app = Flask(__name__)
 
 class WorkServer:
     def __init__(self, redis_server):
-        self.app = Flask(__name__)
         self.redis = redis_server
 
 
