@@ -6,7 +6,7 @@ import redis
 def generate_jobs(database, start_key=None):
     if start_key is None:
         start_key = random.randint(0, 10)
-    for _ in range(10):
+    while True:
         value = random.randint(0, 10)
         print(f"I am generating work {start_key} with value {value}!")
         database.hset("jobs_waiting", start_key, value)
