@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
 
     apt-get update && apt-get upgrade -y
-    apt-get install -y python3-venv python3-pip redis-server
+    apt-get install -y python3-venv python3-pip redis-server nginx
 
     git clone https://github.com/TheFavaLava/capstone2021.git
     cd capstone2021
@@ -20,9 +20,13 @@ Vagrant.configure("2") do |config|
 
     python3 -m venv .venv
     .venv/bin/pip install -e .
-    .venv/bin/pip install wheel
+    .venv/bin/pip install wheel gunicorn
 
     cp -v scripts/*.service /etc/systemd/system
+    cp scripts/app /etc/nginx/sites-available/
+    ln -s /etc/nginx/sites-available/app /etc/nginx/sites-enabled
+    rm /etc/nginx/sites-enabled/default
+
     systemctl start workgen
     systemctl enable workgen
     systemctl start workserver
