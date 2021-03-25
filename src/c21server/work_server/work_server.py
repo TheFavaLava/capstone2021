@@ -1,7 +1,8 @@
 from flask import Flask, json, jsonify, request
 import redis
 
-server = None
+app = Flask(__name__)
+server = create_server()
 
 def get_first_key(data):
     '''
@@ -56,8 +57,9 @@ def get_client_id(server):
     return True, int(server.get('total_num_client_ids'))
 
 
-def create_server(database):
+def create_server():
     '''Create server, add endpoints, and return the server'''
+    server = redis.Redis()
     try:
         server.keys('*')
     except redis.exceptions.ConnectionError:
@@ -89,6 +91,3 @@ def create_server(database):
         return jsonify({'client_id': values[0]}), 200
 
     return workserver
-
-app = Flask(__name__)
-server = create_server(redis.Redis())
