@@ -6,7 +6,7 @@ import requests
 class Client:
 
     def __init__(self):
-        self.url = 'http://capstone.cs.moravian.edu:8080'
+        self.url = 'http://capstone.cs.moravian.edu:8080/work'
         self.client_id = -1
 
     def get_client_id(self):
