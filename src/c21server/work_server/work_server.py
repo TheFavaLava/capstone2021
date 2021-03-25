@@ -56,7 +56,7 @@ def put_results(workserver, data):
 
 @check_for_database
 def get_client_id(workserver):
-    workserver.incr('total_num_client_ids')
+    # workserver.incr('total_num_client_ids')
     return True, int(workserver.redis.get('total_num_client_ids'))
 
 
@@ -67,6 +67,7 @@ def create_server():
         workserver.keys('*')
     except redis.exceptions.ConnectionError:
         return None
+    return workserver
 
 workserver = create_server()
 
