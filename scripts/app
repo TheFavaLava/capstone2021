@@ -4,12 +4,12 @@ server {
 
   location /work {
       include proxy_params;
-      proxy_pass http://0.0.0.0:8080/
+      proxy_pass http://0.0.0.0:8080/;
   }
 
   location /dashboard {
     include proxy_params;
-    proxy_pass http://0.0.0.0:5000/dashboard
+    proxy_pass http://0.0.0.0:5000/dashboard;
   }
 
 }
