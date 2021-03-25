@@ -2,6 +2,7 @@ from flask import Flask, json, jsonify, request
 import redis
 
 app = Flask(__name__)
+server = create_server(redis.Redis())
 
 class WorkServer:
     def __init__(self, redis_server):
