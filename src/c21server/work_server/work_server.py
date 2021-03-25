@@ -1,11 +1,11 @@
 from flask import Flask, json, jsonify, request
 import redis
 
+app = Flask(__name__)
 
-class WorkServer:
-    def __init__(self, redis_server):
-        self.app = Flask(__name__)
-        self.redis = redis_server
+# class WorkServer:
+#     def __init__(self, redis_server):
+#         self.redis = redis_server
 
 
 def get_first_key(data):
@@ -63,7 +63,7 @@ def get_client_id(workserver):
 
 def create_server(database):
     '''Create server, add endpoints, and return the server'''
-    workserver = WorkServer(database)
+    workserver = redis.Redis()
     try:
         workserver.redis.keys('*')
     except redis.exceptions.ConnectionError:
@@ -97,9 +97,8 @@ def create_server(database):
     return workserver
 
 if __name__ == '__main__':
-    server = create_server(redis.Redis())
+    # server = create_server()
     if server is None:
         print('There is no Redis database to connect to.')
     else:
         print("Running app...")
-        server.app.run()
