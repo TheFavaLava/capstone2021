@@ -1,0 +1,15 @@
+server {
+  listen 80 default_server;
+  server_name _;
+
+  location /work {
+      include proxy_params;
+      proxy_pass http://0.0.0.0:8080/
+  }
+
+  location /dashboard {
+    include proxy_params;
+    proxy_pass http://0.0.0.0:5000/
+  }
+
+}
