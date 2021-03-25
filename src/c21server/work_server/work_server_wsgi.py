@@ -6,4 +6,4 @@ if __name__ == "__main__":
     if server is None:
         print('There is no Redis database to connect to.')
     else:
-        server.app.run(host='0.0.0.0', port=8080, debug=False)
+        app.run()
