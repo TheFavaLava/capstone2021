@@ -9,7 +9,7 @@ server {
 
   location /dashboard {
     include proxy_params;
-    proxy_pass http://0.0.0.0:5000/
+    proxy_pass http://0.0.0.0:5000/dashboard
   }
 
 }
