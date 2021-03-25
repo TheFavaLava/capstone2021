@@ -1,6 +1,8 @@
 from flask import Flask, json, jsonify, request
 import redis
 
+server = None
+
 def get_first_key(data):
     '''
     Checks to make sure JSON has at least one entry and that its
