@@ -1,14 +1,6 @@
 from flask import Flask, json, jsonify, request
 import redis
 
-app = Flask(__name__)
-server = create_server(redis.Redis())
-
-class WorkServer:
-    def __init__(self, redis_server):
-        self.redis = redis_server
-
-
 def get_first_key(data):
     '''
     Checks to make sure JSON has at least one entry and that its
@@ -95,3 +87,6 @@ def create_server(database):
         return jsonify({'client_id': values[0]}), 200
 
     return workserver
+
+app = Flask(__name__)
+server = create_server(redis.Redis())
