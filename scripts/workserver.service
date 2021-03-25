@@ -4,7 +4,9 @@ Requires=network.target
 
 [Service]
 Type=simple
-ExecStart=/home/vagrant/capstone2021/scripts/workserver.sh
+WorkingDirectory=/home/vagrant/capstone2021/src/c21server/work_server
+Environment="PATH=/home/vagrant/capstone2021/.venv/bin"
+ExecStart=/home/vagrant/capstone2021/.venv/bin/gunicorn --bind 0.0.0.0:8080 -m 007 work_serverwsgi:app
 
 [Install]
 WantedBy=multi-user.target
