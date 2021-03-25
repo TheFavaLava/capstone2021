@@ -2,14 +2,14 @@ server {
   listen 80 default_server;
   server_name _;
 
-  location /work {
+  location /work/ {
       include proxy_params;
       proxy_pass http://0.0.0.0:8080/;
   }
 
-  location /dashboard {
+  location /dashboard/ {
     include proxy_params;
-    proxy_pass http://0.0.0.0:5000/dashboard;
+    proxy_pass http://0.0.0.0:5000/;
   }
 
 }
