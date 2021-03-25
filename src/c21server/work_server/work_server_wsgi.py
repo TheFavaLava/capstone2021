@@ -1,4 +1,4 @@
-from work_server import WorkServer
+from work_server import app
 import redis
 
 if __name__ == "__main__":
