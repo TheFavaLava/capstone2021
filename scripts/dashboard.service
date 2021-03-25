@@ -4,7 +4,9 @@ Requires=network.target
 
 [Service]
 Type=simple
-ExecStart=/home/vagrant/capstone2021/scripts/dashboard.sh
+WorkingDirectory=/home/vagrant/capstone2021/src/c21server/dashboard
+Environment="PATH=/home/vagrant/capstone2021/.venv/bin"
+ExecStart=/home/vagrant/capstone2021/.venv/bin/gunicorn --bind 0.0.0.0:5000 -m 007 dashboardwsgi:app
 
 [Install]
 WantedBy=multi-user.target
