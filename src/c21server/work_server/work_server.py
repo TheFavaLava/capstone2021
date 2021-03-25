@@ -34,39 +34,38 @@ def check_for_database(func):
 
 
 @check_for_database
-def get_job(workserver):
-    keys = workserver.redis.hkeys('jobs_waiting')
+def get_job(server):
+    keys = server.hkeys('jobs_waiting')
     if len(keys) == 0:
         return False, jsonify({'error': 'There are no jobs available'}), 400
-    value = workserver.redis.hget('jobs_waiting', keys[0])
-    workserver.redis.hset('jobs_in_progress', keys[0], value)
-    workserver.redis.hdel('jobs_waiting', keys[0])
+    value = server.hget('jobs_waiting', keys[0])
+    server.hset('jobs_in_progress', keys[0], value)
+    server.hdel('jobs_waiting', keys[0])
     return True, keys[0].decode(), value.decode()
 
 
 @check_for_database
-def put_results(workserver, data):
+def put_results(server, data):
     key = get_first_key(data)
-    value = workserver.redis.hget('jobs_in_progress', key)
+    value = server.hget('jobs_in_progress', key)
     if value is None:
         body = {'error': 'The job being completed was not in progress'}
         return False, jsonify(body), 400
-    workserver.redis.hdel('jobs_in_progress', key)
-    workserver.redis.hset('jobs_done', key, value)
+    server.hdel('jobs_in_progress', key)
+    server.hset('jobs_done', key, value)
     return (True,)
 
 
 @check_for_database
-def get_client_id(workserver):
-    workserver.redis.incr('total_num_client_ids')
-    return True, int(workserver.redis.get('total_num_client_ids'))
+def get_client_id(server):
+    server.incr('total_num_client_ids')
+    return True, int(server.get('total_num_client_ids'))
 
 
 def create_server(database):
     '''Create server, add endpoints, and return the server'''
-    workserver = WorkServer(database)
     try:
-        workserver.redis.keys('*')
+        server.keys('*')
     except redis.exceptions.ConnectionError:
         return None
 
@@ -83,14 +82,14 @@ def create_server(database):
         if data is None:
             body = {'error': 'The body does not contain the results'}
             return jsonify(body), 400
-        error = put_results(workserver, data)
+        error = put_results(server, data)
         if not error[0]:
             return tuple(error[1:])
         return jsonify({'success': 'The job was successfully completed'}), 200
 
     @workserver.app.route('/get_client_id', methods=['GET'])
     def _get_client_id():
-        success, *values = get_client_id(workserver)
+        success, *values = get_client_id(server)
         if not success:
             return tuple(values)
         return jsonify({'client_id': values[0]}), 200
