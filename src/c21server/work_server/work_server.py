@@ -2,7 +2,6 @@ from flask import Flask, json, jsonify, request
 import redis
 
 app = Flask(__name__)
-
 # class WorkServer:
 #     def __init__(self, redis_server):
 #         self.redis = redis_server
@@ -61,7 +60,7 @@ def get_client_id(workserver):
     return True, int(workserver.redis.get('total_num_client_ids'))
 
 
-def create_server(database):
+def create_server():
     '''Create server, add endpoints, and return the server'''
     workserver = redis.Redis()
     try:
@@ -69,36 +68,31 @@ def create_server(database):
     except redis.exceptions.ConnectionError:
         return None
 
-    @workserver.app.route('/get_job', methods=['GET'])
-    def _get_job():
-        success, *values = get_job(workserver)
-        if not success:
-            return tuple(values)
-        return jsonify({'job': {values[0]: values[1]}}), 200
+workserver = create_server()
 
-    @workserver.app.route('/put_results', methods=['PUT'])
-    def _put_results():
-        data = json.loads(request.data).get('results', None)
-        if data is None:
-            body = {'error': 'The body does not contain the results'}
-            return jsonify(body), 400
-        error = put_results(workserver, data)
-        if not error[0]:
-            return tuple(error[1:])
-        return jsonify({'success': 'The job was successfully completed'}), 200
+@app.route('/get_job', methods=['GET'])
+def _get_job():
+    success, *values = get_job(workserver)
+    if not success:
+        return tuple(values)
+    return jsonify({'job': {values[0]: values[1]}}), 200
 
-    @workserver.app.route('/get_client_id', methods=['GET'])
-    def _get_client_id():
-        success, *values = get_client_id(workserver)
-        if not success:
-            return tuple(values)
-        return jsonify({'client_id': values[0]}), 200
+@app.route('/put_results', methods=['PUT'])
+def _put_results():
+    data = json.loads(request.data).get('results', None)
+    if data is None:
+        body = {'error': 'The body does not contain the results'}
+        return jsonify(body), 400
+    error = put_results(workserver, data)
+    if not error[0]:
+        return tuple(error[1:])
+    return jsonify({'success': 'The job was successfully completed'}), 200
+
+@app.route('/get_client_id', methods=['GET'])
+def _get_client_id():
+    success, *values = get_client_id(workserver)
+    if not success:
+        return tuple(values)
+    return jsonify({'client_id': values[0]}), 200
 
     return workserver
-
-if __name__ == '__main__':
-    # server = create_server()
-    if server is None:
-        print('There is no Redis database to connect to.')
-    else:
-        print("Running app...")
