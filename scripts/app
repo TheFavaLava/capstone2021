@@ -13,5 +13,8 @@ server {
     proxy_pass http://0.0.0.0:5000/;
   }
 
+  location /static/ {
+    alias /home/vagrant/capstone2021/src/c21server/dashboard/static;
+  }
 
 }
