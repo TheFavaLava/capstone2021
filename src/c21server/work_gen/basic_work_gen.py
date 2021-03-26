@@ -11,6 +11,7 @@ def generate_jobs(database, start_key=None):
         print(f"I am generating work {start_key} with value {value}!")
         database.hset("jobs_waiting", start_key, value)
         start_key += 1
+        time.sleep(5)
 
 
 def emulate_job_creation(database):
