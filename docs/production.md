@@ -1,31 +1,14 @@
-# **Production Documentation**
 
-1. Open necessary ports
 
-1. Update Linux
+# Production Environment Documentation
 
-1. Install pip
 
-1. Install git
+## Summary
+The Production Environment has been setup to establish a secure separation from server side and client functionality, and ensure requests are being received securely and asynchronously.
 
-1. Install Redis
+## Description
+The Vagrant File is designed to automatically create an instance of a virtual machine on the Capstone2021 Virtual Box.
 
-1. Install Venv
+Nginx and Gunicorn have been implemented to provide efficient load balancing and asynchronous server connections from multiple clients.
 
-1. Clone the repo
-
-1. cd into capstone2021
-
-1. Checkout the prod_env branch
-
-1. Start venv
-
-1. Install requirements
-
-1. pip install wheel
-
-1. Copy *_vagrant.service files to /etc/systemd/system
-
-1. Start workgen and workserver .service files
-
-1. Enable workgen and workserver .service files
+Check the [Vagrant.md](https://github.com/cs334s21/capstone2021/blob/main/docs/vagrant.md) file for complete details involving how the VagrantFile works.
