@@ -20,6 +20,8 @@ Vagrant.configure("2") do |config|
     apt-get update && apt-get upgrade -y
     apt-get install -y python3-venv python3-pip redis-server nginx
 
+    cd /home/vagrant/capstone2021
+
     # Change the branch to your testing branch
     # git checkout sprint_three
 
