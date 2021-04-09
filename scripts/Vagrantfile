@@ -5,8 +5,8 @@ Vagrant.configure("2") do |config|
     v.cpus = 1
   end
   config.vm.box = "ubuntu/bionic64"
-  config.vm.synced_folder "..", "capstone2021"
-  config.vm.synced_folder "../.venv", "capstone2021/.venv"
+  config.vm.synced_folder "..", "/home/vagrant/capstone2021"
+  config.vm.synced_folder "../.venv", "/home/vagrant/capstone2021/.venv"
 
 
   config.vm.network "public_network"
